@@ -44,7 +44,8 @@ def get_sessions():
 	if BYOBU_BACKEND == "screen":
 		try:
 			output = subprocess.Popen(["screen", "-ls"], stdout=subprocess.PIPE).communicate()[0]
-		except subprocess.CalledProcessError as cpe:
+		except subprocess.CalledProcessError:
+			cpe = sys.exc_info
 			# screen -ls seems to always return 1
 			if cpe.returncode != 1:
 				raise
