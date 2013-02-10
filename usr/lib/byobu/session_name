@@ -22,14 +22,17 @@
 __session_tmux() {
 	local sname=
 	local count=
+	local sock=
+
+	sname=$(tmux display-message -p '#S')
 
 	count=$(echo "$TMUX" | grep -o , | wc -l)
 	count=$((count-1))
 
-	sname="$(echo $TMUX | cut -f1-$count -d,)"
-	sname=$(basename "$sname")
+	sock="$(echo $TMUX | cut -f1-$count -d,)"
+	sock=$(basename "$sock")
 
-	printf "%s" "$sname"
+	printf "%s/%s" "$sock" "$sname"
 }
 
 # Find session name in SCREEN based sessions
@@ -50,5 +53,5 @@ __session_name() {
 	else
 	    sname="$(__session_screen $lpid)"
 	fi
-	color b r W; printf "-"; printf "%s-" "$sname"; color --
+	printf " "; color b r W; printf "-"; printf "%s-" "$sname"; color --
 }
